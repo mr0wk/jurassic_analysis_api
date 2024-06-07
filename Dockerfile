@@ -20,11 +20,13 @@ RUN python3 -m venv venv && \
 # Populate the database
 RUN venv/bin/python -m sql_app.populate_db
 
-# Make port 80 available to the world outside this container
-EXPOSE 80
+# Make port 8000 available to the world outside this container
+EXPOSE 8000
 
 # Define environment variable
 ENV NAME World
+ENV PORT 8000
 
 # Run app.py when the container launches
-CMD ["venv/bin/uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["sh", "-c", "venv/bin/uvicorn main:app --host 0.0.0.0 --port ${PORT}"]
+
