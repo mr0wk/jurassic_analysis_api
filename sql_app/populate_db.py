@@ -1,6 +1,8 @@
 import pandas as pd
 from sqlalchemy.orm import Session
 
+from sql_app import engine, models
+
 from .crud import bulk_create_dinosaurs
 from .database import SessionLocal
 from .schemas import DinosaurCreate
@@ -18,6 +20,7 @@ dinosaur_list = [DinosaurCreate(**dino) for dino in dinosaur_data]
 db: Session = SessionLocal()
 
 try:
+    models.Base.metadata.create_all(bind=engine)
     bulk_create_dinosaurs(db, dinosaur_list)
 finally:
     db.close()
